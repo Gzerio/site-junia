@@ -2,18 +2,20 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Para Junia 💖</title>
+  <title>Pra Junia 💖</title>
   <style>
     body {
       background: linear-gradient(to right, #fbc2eb, #a6c1ee);
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 60px;
+      overflow: hidden;
     }
 
     h1 {
       color: #ff4081;
       font-size: 3em;
+      margin-bottom: 0;
     }
 
     p {
@@ -32,12 +34,64 @@
       50% { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
+
+    .buttons {
+      margin-top: 50px;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-sim {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .btn-nao {
+      background-color: #f44336;
+      color: white;
+      position: absolute;
+    }
+
+    #resposta {
+      font-size: 1.8em;
+      color: #333;
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body>
   <div class="heart">💖</div>
-  <h1>Oi, Junia!</h1>
-  <p>Esse site é só pra te lembrar que você é incrível, importante e maravilhosa.</p>
-  <p>— Com carinho, Guilherme 💕</p>
+  <h1>Oi Junia!</h1>
+  <p>Eu tenho uma pergunta muito importante pra você...</p>
+
+  <div class="buttons">
+    <button class="btn btn-sim" onclick="responderSim()">Sim</button>
+    <button class="btn btn-nao" id="btnNao">Não</button>
+  </div>
+
+  <div id="resposta"></div>
+
+  <script>
+    const btnNao = document.getElementById('btnNao');
+
+    btnNao.addEventListener('mouseenter', () => {
+      const x = Math.floor(Math.random() * (window.innerWidth - 100));
+      const y = Math.floor(Math.random() * (window.innerHeight - 100));
+      btnNao.style.left = `${x}px`;
+      btnNao.style.top = `${y}px`;
+    });
+
+    function responderSim() {
+      document.getElementById('resposta').innerText = 'Eu sabia!!! 😍 Te amo 💖';
+    }
+  </script>
 </body>
 </html>
