@@ -5,23 +5,68 @@
   <title>Pra Junia 💖</title>
   <style>
     body {
-      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      background: #fff0f5;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 60px;
+      margin: 0;
       overflow: hidden;
     }
 
     h1 {
-      color: #ff4081;
-      font-size: 3em;
-      margin-bottom: 0;
+      color: #ff69b4;
+      font-size: 2.5em;
     }
 
-    p {
-      font-size: 1.5em;
-      color: #444;
-      margin-top: 20px;
+    .login-box, .main-content {
+      display: none;
+    }
+
+    .login-box.active, .main-content.active {
+      display: block;
+    }
+
+    .login-box {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+      max-width: 300px;
+      margin: 50px auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background: #ff69b4;
+      color: white;
+      padding: 12px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #ff1493;
+    }
+
+    .erro {
+      color: #ff3366;
+      font-weight: bold;
+      margin-top: 15px;
+      display: none;
     }
 
     .heart {
@@ -36,13 +81,17 @@
     }
 
     .buttons {
-      margin-top: 50px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      transform: translateX(0px);
     }
 
     .btn {
       padding: 15px 30px;
       font-size: 1.2em;
-      margin: 10px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -57,7 +106,7 @@
     .btn-nao {
       background-color: #f44336;
       color: white;
-      position: absolute;
+      position: relative;
     }
 
     #resposta {
@@ -65,19 +114,65 @@
       color: #333;
       margin-top: 40px;
     }
+
+   .coracao {
+  position: fixed;
+  font-size: 3em;
+  animation: flutuar 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 1;
+  color: #ff1f6d; /* cor mais viva */
+  text-shadow: 0 0 10px rgba(255, 0, 100, 0.8);
+}
+
+
+    @keyframes flutuar {
+      0% {
+        transform: translateY(100vh) scale(1);
+        
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.4);
+        
+      }
+    }
+
+    audio {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="heart">💖</div>
-  <h1>Oi Junia!</h1>
-  <p>Eu tenho uma pergunta muito importante pra você...</p>
 
-  <div class="buttons">
-    <button class="btn btn-sim" onclick="responderSim()">Sim</button>
-    <button class="btn btn-nao" id="btnNao">Não</button>
+  <!-- MÚSICA -->
+  <audio id="musicaRomantica" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio HTML5.
+  </audio>
+
+  <!-- LOGIN -->
+  <div class="login-box active" id="loginBox">
+    <h1>Bem-vinda, Vida💖</h1>
+    <input type="text" id="usuario" placeholder="Seu nome">
+    <input type="password" id="senha" placeholder="Senha secreta">
+    <button onclick="validarLogin()">Entrar</button>
+    <div class="erro" id="erro">Acesso negado ao meu coração... 😢</div>
   </div>
 
-  <div id="resposta"></div>
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main-content" id="conteudoPrincipal">
+    <div class="heart">💖</div>
+    <h1>Oi Junia!</h1>
+    <p>Eu tenho uma pergunta muito importante pra você...</p>
+
+    <div class="buttons">
+      <button class="btn btn-sim" onclick="responderSim()">Sim</button>
+      <button class="btn btn-nao" id="btnNao">Não</button>
+    </div>
+
+    <div id="resposta"></div>
+  </div>
 
   <script>
     const btnNao = document.getElementById('btnNao');
@@ -85,13 +180,39 @@
     btnNao.addEventListener('mouseenter', () => {
       const x = Math.floor(Math.random() * (window.innerWidth - 100));
       const y = Math.floor(Math.random() * (window.innerHeight - 100));
+      btnNao.style.position = 'absolute';
       btnNao.style.left = `${x}px`;
       btnNao.style.top = `${y}px`;
     });
 
+    function validarLogin() {
+      const usuario = document.getElementById("usuario").value.toLowerCase().trim();
+      const senha = document.getElementById("senha").value;
+
+      if (usuario === "junia" && senha === "teamo") {
+        document.getElementById("loginBox").classList.remove("active");
+        document.getElementById("conteudoPrincipal").classList.add("active");
+        document.getElementById("musicaRomantica").play(); // ⏯️ começa música
+      } else {
+        document.getElementById("erro").style.display = "block";
+      }
+    }
+
     function responderSim() {
       document.getElementById('resposta').innerText = 'Eu sabia!!! 😍 Te amo 💖';
     }
+
+    function criarCoracao() {
+      const coracao = document.createElement('div');
+      coracao.classList.add('coracao');
+      coracao.innerText = '💖';
+      coracao.style.left = Math.random() * 100 + "vw";
+      coracao.style.fontSize = Math.random() * 30 + 30 + "px";
+      document.body.appendChild(coracao);
+      setTimeout(() => coracao.remove(), 7000);
+    }
+
+    setInterval(criarCoracao, 300);
   </script>
 </body>
 </html>
