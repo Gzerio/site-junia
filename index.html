@@ -2,20 +2,30 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pra Junia 💖</title>
   <style>
     body {
-      background: #fff0f5;
+      background: linear-gradient(to right, #ffe0f0, #fff0f5);
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding: 60px;
       margin: 0;
-      overflow: hidden;
+      padding: 60px;
+      overflow-x: hidden;
     }
 
     h1 {
       color: #ff69b4;
       font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    #fraseRomantica {
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #ff4081;
+      font-weight: bold;
+      height: 1.5em;
     }
 
     .login-box, .main-content {
@@ -30,8 +40,9 @@
       background: white;
       padding: 30px 40px;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
-      max-width: 300px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+      width: 100%;
+      max-width: 320px;
       margin: 50px auto;
       position: relative;
       z-index: 2;
@@ -86,7 +97,7 @@
       justify-content: center;
       gap: 20px;
       position: relative;
-      transform: translateX(0px);
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -115,55 +126,105 @@
       margin-top: 40px;
     }
 
-   .coracao {
-  position: fixed;
-  font-size: 3em;
-  animation: flutuar 9s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 100;
-  opacity: 1;
-  color: #ff1f6d; /* cor mais viva */
-  text-shadow: 0 0 10px rgba(255, 0, 100, 0.8);
-}
-
+    .coracao {
+      position: fixed;
+      font-size: 3em;
+      animation: flutuar 10s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.9;
+      text-shadow: 0 0 15px rgba(255, 0, 100, 0.8);
+    }
 
     @keyframes flutuar {
-      0% {
-        transform: translateY(100vh) scale(1);
-        
-      }
-      100% {
-        transform: translateY(-10vh) scale(1.4);
-        
-      }
+      0% { transform: translateY(100vh) scale(1); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
+    }
+
+    .explosao {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      animation: explodir 1s ease forwards;
+      z-index: 10;
+    }
+
+    @keyframes explodir {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.3);  }
+      100% { transform: scale(0);  }
+    }
+
+    #galeria {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .imagem-item {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .imagem-item img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(255, 105, 180, 0.3);
+    }
+
+    .imagem-item p {
+      color: #444;
+      font-size: 1em;
+      margin-top: 8px;
     }
 
     audio {
       display: none;
     }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      .btn {
+        padding: 12px 16px;
+        font-size: 1em;
+      }
+      #fraseRomantica {
+        font-size: 1em;
+      }
+      .buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- MÚSICA -->
   <audio id="musicaRomantica" loop>
     <source src="music/romantic.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio HTML5.
   </audio>
 
-  <!-- LOGIN -->
   <div class="login-box active" id="loginBox">
-    <h1>Bem-vinda, Vida💖</h1>
+    <h1>Bem-vinda, Junia 💖</h1>
     <input type="text" id="usuario" placeholder="Seu nome">
     <input type="password" id="senha" placeholder="Senha secreta">
     <button onclick="validarLogin()">Entrar</button>
-    <div class="erro" id="erro">Acesso negado ao meu coração... 😢</div>
+    <div class="erro" id="erro">Acesso negado ao meu coração😢</div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
   <div class="main-content" id="conteudoPrincipal">
     <div class="heart">💖</div>
     <h1>Oi Junia!</h1>
+    <div id="fraseRomantica"></div>
     <p>Eu tenho uma pergunta muito importante pra você...</p>
 
     <div class="buttons">
@@ -172,18 +233,37 @@
     </div>
 
     <div id="resposta"></div>
+
+    <h2 style="margin-top: 60px; color: #ff69b4; display: none;" id="tituloGaleria">Nossas Memórias 💞</h2>
+    <div id="galeria">
+      <div class="imagem-item">
+        <img src="images/img1.jpg" alt="Imagem 1">
+        <p>Esse sorriso vale mais que qualquer framework.</p>
+      </div>
+      <div class="imagem-item">
+        <img src="images/img2.jpg" alt="Imagem 2">
+        <p>Bug nenhum me abala quando te vejo assim.</p>
+      </div>
+      <div class="imagem-item">
+        <img src="images/img3.jpg" alt="Imagem 3">
+        <p>Você é a main branch do meu coração.</p>
+      </div>
+    </div>
   </div>
 
   <script>
-    const btnNao = document.getElementById('btnNao');
+    const frases = [
+      "Você é o commit mais lindo da minha história 💻💕",
+      "Amor é quando até o botão 'não' foge de você 😂",
+      "Com você, tudo compila melhor 💘",
+      "Te amo mais que push com sucesso 🥰"
+    ];
 
-    btnNao.addEventListener('mouseenter', () => {
-      const x = Math.floor(Math.random() * (window.innerWidth - 100));
-      const y = Math.floor(Math.random() * (window.innerHeight - 100));
-      btnNao.style.position = 'absolute';
-      btnNao.style.left = `${x}px`;
-      btnNao.style.top = `${y}px`;
-    });
+    let fraseIndex = 0;
+    setInterval(() => {
+      document.getElementById("fraseRomantica").innerText = frases[fraseIndex];
+      fraseIndex = (fraseIndex + 1) % frases.length;
+    }, 4000);
 
     function validarLogin() {
       const usuario = document.getElementById("usuario").value.toLowerCase().trim();
@@ -192,24 +272,42 @@
       if (usuario === "junia" && senha === "teamo") {
         document.getElementById("loginBox").classList.remove("active");
         document.getElementById("conteudoPrincipal").classList.add("active");
-        document.getElementById("musicaRomantica").play(); // ⏯️ começa música
+        document.getElementById("musicaRomantica").play();
       } else {
         document.getElementById("erro").style.display = "block";
       }
     }
 
+    const btnNao = document.getElementById('btnNao');
+    btnNao.addEventListener('mouseenter', () => {
+      const x = Math.floor(Math.random() * (window.innerWidth - 100));
+      const y = Math.floor(Math.random() * (window.innerHeight - 100));
+      btnNao.style.position = 'absolute';
+      btnNao.style.left = `${x}px`;
+      btnNao.style.top = `${y}px`;
+    });
+
     function responderSim() {
       document.getElementById('resposta').innerText = 'Eu sabia!!! 😍 Te amo 💖';
+      const boom = document.createElement('div');
+      boom.classList.add('explosao');
+      boom.innerText = "💘💘💘";
+      document.body.appendChild(boom);
+      setTimeout(() => boom.remove(), 1000);
+
+      document.getElementById("galeria").style.display = "flex";
+      document.getElementById("tituloGaleria").style.display = "block";
     }
 
     function criarCoracao() {
+      const emojis = ['💖','💘','💝','💞','💕','💓','❤️'];
       const coracao = document.createElement('div');
       coracao.classList.add('coracao');
-      coracao.innerText = '💖';
+      coracao.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       coracao.style.left = Math.random() * 100 + "vw";
       coracao.style.fontSize = Math.random() * 30 + 30 + "px";
       document.body.appendChild(coracao);
-      setTimeout(() => coracao.remove(), 7000);
+      setTimeout(() => coracao.remove(), 10000);
     }
 
     setInterval(criarCoracao, 300);
